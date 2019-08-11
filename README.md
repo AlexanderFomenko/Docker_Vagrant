@@ -87,5 +87,11 @@
       
       > \list
       ![image](https://user-images.githubusercontent.com/52493338/62840598-b98a8700-bca5-11e9-9a72-ec2c32f29e6d.png)
+    
+   * Подключимся к БД под пользователем library_user с паролем lib123 для проверки наличия всех таблиц, которые были в dumb-файле
+      > su - postgres
+      
+      > psql library library_user
+      ![image](https://user-images.githubusercontent.com/52493338/62840615-37e72900-bca6-11e9-86aa-d7b93c6de36e.
         
 
