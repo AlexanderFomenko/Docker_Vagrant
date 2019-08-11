@@ -50,5 +50,8 @@
   
     > cd /opt/test
     
-    > vagrant init
+    > sudo vagrant init
+
+2. Меняем созданный после инициализации Vagrantfile на файл из данного репозитория
+3.
 
