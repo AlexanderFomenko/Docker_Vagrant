@@ -5,6 +5,8 @@
 * Kernel - 5.0.0-23-generic
 * RAM - 4GB
 * CPU: 4
+* Vagrant - 2.2.5
+* VirtualBox - 5.2.32
 
 ### Vagrant
 Задача:
@@ -60,4 +62,9 @@
 4. После создания машины необходимо проверить в браузере, что Tomcat доступен через Nginx.
 
 ![Screenshot from 2019-08-11 22-28-46](https://user-images.githubusercontent.com/52493338/62838672-3eff3e80-bc88-11e9-92cf-c4694b8e8971.png)
+
+5. Проверим каждый пункт задачи.
+  
+  * Проверим что все необходимые пакеты присутствуют в системе
+  > for i in "nginx" "jdk" "maven" "git" "postgresql" "tomcat" ; do dpkg --get-selections | grep -v deinstall | grep $i; done
 
