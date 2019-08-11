@@ -70,5 +70,7 @@
       
       ![Screenshot from 2019-08-11 23-01-07](https://user-images.githubusercontent.com/52493338/62839072-d9ae4c00-bc8d-11e9-9a81-e23329c50eeb.png)
   
-  *
+  * Убедимся что в директории '/test/target' лежит собранный проект
+  
+  
 
