@@ -31,8 +31,10 @@ Vagrant.configure("2") do |config|
         tar xzvf /tmp/apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1
         pushd /opt/tomcat && chgrp -R tomcat /opt/tomcat && chmod -R g+r conf && chmod g+x conf && chown -R tomcat webapps/ work/ temp/ logs/
         mkdir /test
-        git clone https://bitbucket.org/p12se/library.git /test
+        git clone https://github.com/AlexanderFomenko/Docker_Vagrant.git /test
         pushd /test && mvn compile
+        pushd /test && mvn package
+        cp -r /test/target/hello-world-war-1.0.0 /opt/tomcat/webapps
         echo "[Unit] 
               Description=Apache Tomcat Web Application Container
               After=network.target
@@ -73,7 +75,7 @@ location / {
     proxy_set_header X-Forwarded-Host '$host';
     proxy_set_header X-Forwarded-Server '$host';
     proxy_set_header X-Forwarded-For '$proxy_add_x_forwarded_for';
-    proxy_pass http://$i:9090/;
+    proxy_pass http://127.0.0.1:9090/;
   }
 }" > /etc/nginx/sites-enabled/default ; done
         sed -i '/proxy_set_header X-Forwarded-Host /c\    proxy_set_header X-Forwarded-Host $host;' /etc/nginx/sites-enabled/default
@@ -82,8 +84,8 @@ location / {
         sed -i '/proxy_set_header X-Forwarded-Host /c\    proxy_set_header X-Forwarded-Host $host;' /etc/nginx/sites-available/default
         sed -i '/proxy_set_header X-Forwarded-Server /c\    proxy_set_header X-Forwarded-Server $host;' /etc/nginx/sites-available/default
         sed -i '/proxy_set_header X-Forwarded-For /c\proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;' /etc/nginx/sites-available/default
-        for i in $(ifconfig enp0s8 | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' -f 1) ; do sed -i 's/<Host name=\"localhost\"/<Host name=\"192.168.0.20\"/g' /opt/tomcat/conf/server.xml ; done
         sed -i 's/<Connector port="8080"/<Connector port="9090"/g' /opt/tomcat/conf/server.xml
+        sed -i 's/JAVA_OPTS="$JAVA_OPTS -Djava.protocol.handler.pkgs=org.apache.catalina.webresources"/JAVA_OPTS=" $JAVA_OPTS -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true "/g' /opt/tomcat/bin/catalina.sh 
         ufw allow 8080
         ufw allow 9090
         echo > /opt/tomcat/conf/tomcat-users.xml
@@ -98,6 +100,7 @@ location / {
         pushd / && sudo -u postgres psql -U postgres -d postgres -c "grant all privileges on database library to library_user;"
         pushd / && sudo -u postgres bash -c "PGPASSWORD=lib123 psql -U library_user -d library < /test/configuration/dump.sql"         
         systemctl restart nginx tomcat postgresql
+        systemctl enable nginx tomcat postgresql
       SHELL
     end
 
