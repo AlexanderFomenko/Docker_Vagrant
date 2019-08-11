@@ -72,5 +72,6 @@
   
   * Убедимся что в директории '/test/target' лежит собранный проект
   
+    ![image](https://user-images.githubusercontent.com/52493338/62839485-1a5c9400-bc93-11e9-804d-83237f03ccf4.png)
   
 
