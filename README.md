@@ -103,8 +103,38 @@
       
       ![image](https://user-images.githubusercontent.com/52493338/62840700-7cbf8f80-bca7-11e9-8e38-c7d5f32e642a.png)
 
-
 ### Docker
+Задача:
+
+Необходимо в виртуальной машине VirtualBox установить Ubuntu Server 16.04, c параметрами hdd 10gb и ram 2gb.
+
+Далее внутри виртуальной машины установить:
+
+* Java Oracle 8
+
+* Apache Tomcat 8
+
+* Git
+
+* Apache Maven 3.x
+
+* Postgresql 9.5.x
+
+* Nginx 1.10.x
+
+Далее необходимо развернуть приложение:
+
+  1.Забрать исходный код из https://github.com/AlexanderFomenko/Docker_Vagrant.git
+
+  2.Собрать проект при момощи maven
+  
+  3.Настроить tomcat на порт 9090
+
+  4.Настроить nginx в качестве прокси для tomcat
+  
+  5.Развернуть собранное приложение в tomcat
+  
+  Решение:
 
 
 
