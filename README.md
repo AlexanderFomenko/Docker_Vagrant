@@ -11,7 +11,7 @@
 ### Vagrant
 Задача:
 
-Необходимо в виртуальной машине VirtualBox установить Ubuntu Server 16.04, c параметрами hdd 5gb и ram 2gb.
+Необходимо в виртуальной машине VirtualBox установить Ubuntu Server 16.04, c параметрами hdd 10gb и ram 2gb.
 
 Далее внутри виртуальной машины установить:
 
@@ -80,7 +80,28 @@
       > cat /etc/nginx/sites-available/default
     ![image](https://user-images.githubusercontent.com/52493338/62839708-7ecd2280-bc96-11e9-937b-3055b57c242b.png)
    
-   * Проверим наличие созданной БД library
-      > 
+   * Проверим наличие созданной БД library и что она принадлежит пользователю library_user
+      > su - postgres
+      
+      > psql
+      
+      > \list
+      ![image](https://user-images.githubusercontent.com/52493338/62840598-b98a8700-bca5-11e9-9a72-ec2c32f29e6d.png)
+    
+   * Подключимся к БД под пользователем library_user с паролем lib123 для проверки наличия всех таблиц, которые были в dumb-файле
+      > su - postgres
+      
+      > psql library library_user
+      
+      ![image](https://user-images.githubusercontent.com/52493338/62840615-37e72900-bca6-11e9-86aa-d7b93c6de36e.png)
+     
+   * Проверим что наш собранный проект hello-world-war-1.0.0 присутствует в Tomcat. Для этого перейдем на веб-страницу => 'Manager App'
+   
+      ![image](https://user-images.githubusercontent.com/52493338/62840670-22beca00-bca7-11e9-9f32-8fc899ca733c.png)
+   
+   * Далее перейдем по пути '/hello-world-war-1.0.0', чтобы убедиться, что наш проект правильно функционирует
+      
+      ![image](https://user-images.githubusercontent.com/52493338/62840700-7cbf8f80-bca7-11e9-8e38-c7d5f32e642a.png)
+
         
 
