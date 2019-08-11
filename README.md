@@ -65,6 +65,8 @@
 
 5. Проверим каждый пункт задачи.
   
-  * Проверим что все необходимые пакеты присутствуют в системе
-  > for i in "nginx" "jdk" "maven" "git" "postgresql" "tomcat" ; do dpkg --get-selections | grep -v deinstall | grep $i; done
+  * Проверим что все необходимые пакеты присутствуют в системе.
+      > for i in "nginx" "jdk" "maven" "git" "postgresql" ; do dpkg --get-selections | grep -v deinstall | grep $i; done
+  
+  *
 
