@@ -79,4 +79,8 @@
    * Проверим настройки прокси сервера Nginx
       > cat /etc/nginx/sites-available/default
     ![image](https://user-images.githubusercontent.com/52493338/62839708-7ecd2280-bc96-11e9-937b-3055b57c242b.png)
+   
+   * Проверим наличие созданной БД library
+      > 
+        
 
