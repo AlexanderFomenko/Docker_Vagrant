@@ -58,4 +58,5 @@
     > sudo vagrant up
 
 4. После создания машины необходимо проверить в браузере, что Tomcat доступен через Nginx.
+![Screenshot from 2019-08-11 22-28-46](https://user-images.githubusercontent.com/52493338/62838672-3eff3e80-bc88-11e9-92cf-c4694b8e8971.png)
 
