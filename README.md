@@ -5,4 +5,12 @@
 * RAM - 4GB
 * CPU: 4
 
-## TEST
+## Vagrant
+Задача:
+Необходимо в виртуальной машине VirtualBox установить Ubuntu Server 16.04, c параметрами hdd 5gb и ram 2gb. Далее внутри виртуалки установить:
+Java Oracle 8
+Apache Tomcat 8
+Git
+Apache Maven 3.x
+Postgresql 9.5.x
+Nginx 1.11.x 
