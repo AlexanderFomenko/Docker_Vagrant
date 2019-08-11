@@ -13,17 +13,17 @@
 
 Далее внутри виртуальной машины установить:
 
-1.Java Oracle 8
+* Java Oracle 8
 
-2.Apache Tomcat 8
+* Apache Tomcat 8
 
-3.Git
+* Git
 
-4.Apache Maven 3.x
+* Apache Maven 3.x
 
-5.Postgresql 9.5.x
+* Postgresql 9.5.x
 
-6.Nginx 1.11.x
+* Nginx 1.11.x
 
 Далее необходимо развернуть приложение:
 
