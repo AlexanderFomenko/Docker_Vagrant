@@ -80,7 +80,10 @@
       > cat /etc/nginx/sites-available/default
     ![image](https://user-images.githubusercontent.com/52493338/62839708-7ecd2280-bc96-11e9-937b-3055b57c242b.png)
    
-   * Проверим наличие созданной БД library
-      > 
+   * Проверим наличие созданной БД library и что она принадлежит пользователю library_user
+      > su - postgres
+      > psql
+      > \list
+      ![image](https://user-images.githubusercontent.com/52493338/62840598-b98a8700-bca5-11e9-9a72-ec2c32f29e6d.png)
         
 
