@@ -73,5 +73,11 @@
   * Убедимся что в директории '/test/target' лежит собранный проект
   
     ![image](https://user-images.githubusercontent.com/52493338/62839485-1a5c9400-bc93-11e9-804d-83237f03ccf4.png)
+   
+   * Убедимся что tomcat работает по порту :9090
+      > netstat -tulpn | grep 9090
+   
+   * Проверим настройки прокси сервера Nginx
+      > cat /etc/nginx/sites-enabled/default
   
 
