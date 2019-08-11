@@ -1,0 +1,106 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+hosts = [ { name: 'maven'}]
+
+Vagrant.configure("2") do |config|
+  
+  config.vm.provider :virtualbox do |vb|
+   vb.customize ["modifyvm", :id, "--memory", 2048]
+   vb.customize ["storagectl", :id, "--add", "sata", "--name", "SATA" , "--portcount", 2, "--hostiocache", "on"]
+  end
+
+  hosts.each do |host|
+    
+    config.vm.define host[:name] do |node|
+      node.vm.hostname = host[:name]
+      node.vm.box = "ubuntu/xenial64"
+      node.vm.network :public_network, ip: "192.168.0.20"
+      node.vm.provider :virtualbox do |vb|
+        vb.name = host[:name]
+      end
+        node.vm.provision "shell", privileged: true, inline: <<-SHELL
+        #!/bin/bash
+        add-apt-repository ppa:webupd8team/java -y
+        apt-get update
+        apt-get upgrade
+        apt-get install -y maven postgresql nginx default-jdk curl
+        groupadd tomcat
+        useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+        pushd /tmp && curl -O http://apache.mirrors.ionfish.org/tomcat/tomcat-8/v8.5.43/bin/apache-tomcat-8.5.43.tar.gz
+        mkdir /opt/tomcat
+        tar xzvf /tmp/apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1
+        pushd /opt/tomcat && chgrp -R tomcat /opt/tomcat && chmod -R g+r conf && chmod g+x conf && chown -R tomcat webapps/ work/ temp/ logs/
+        mkdir /test
+        git clone https://bitbucket.org/p12se/library.git /test
+        pushd /test && mvn compile
+        echo "[Unit] 
+              Description=Apache Tomcat Web Application Container
+              After=network.target
+
+              [Service]
+              Type=forking
+
+              Environment=JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre
+              Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+              Environment=CATALINA_HOME=/opt/tomcat
+              Environment=CATALINA_BASE=/opt/tomcat
+              Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
+              Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+
+              ExecStart=/opt/tomcat/bin/startup.sh
+              ExecStop=/opt/tomcat/bin/shutdown.sh
+
+              User=tomcat
+              Group=tomcat
+              UMask=0007
+              RestartSec=10
+              Restart=always
+
+              [Install]
+              WantedBy=multi-user.target" > /etc/systemd/system/tomcat.service
+        sed -i '/local   all             all                                     peer/c\local   all             all                                     password' /etc/postgresql/9.5/main/pg_hba.conf
+        for i in $(ifconfig enp0s8 | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' -f 1) ; do echo "server
+{
+server_name $i;
+ 
+listen *:80;
+ 
+access_log /var/log/nginx/host.com-access.log;
+error_log /var/log/nginx/host.com-error.log;
+ 
+ 
+location / { 
+    proxy_set_header X-Forwarded-Host '$host';
+    proxy_set_header X-Forwarded-Server '$host';
+    proxy_set_header X-Forwarded-For '$proxy_add_x_forwarded_for';
+    proxy_pass http://$i:9090/;
+  }
+}" > /etc/nginx/sites-enabled/default ; done
+        sed -i '/proxy_set_header X-Forwarded-Host /c\    proxy_set_header X-Forwarded-Host $host;' /etc/nginx/sites-enabled/default
+        sed -i '/proxy_set_header X-Forwarded-Server /c\    proxy_set_header X-Forwarded-Server $host;' /etc/nginx/sites-enabled/default
+        sed -i '/proxy_set_header X-Forwarded-For /c\proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;' /etc/nginx/sites-enabled/default
+        sed -i '/proxy_set_header X-Forwarded-Host /c\    proxy_set_header X-Forwarded-Host $host;' /etc/nginx/sites-available/default
+        sed -i '/proxy_set_header X-Forwarded-Server /c\    proxy_set_header X-Forwarded-Server $host;' /etc/nginx/sites-available/default
+        sed -i '/proxy_set_header X-Forwarded-For /c\proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;' /etc/nginx/sites-available/default
+        for i in $(ifconfig enp0s8 | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' -f 1) ; do sed -i 's/<Host name=\"localhost\"/<Host name=\"192.168.0.20\"/g' /opt/tomcat/conf/server.xml ; done
+        sed -i 's/<Connector port="8080"/<Connector port="9090"/g' /opt/tomcat/conf/server.xml
+        ufw allow 8080
+        ufw allow 9090
+        echo > /opt/tomcat/conf/tomcat-users.xml
+        for i in '<tomcat-users>' '<role rolename=\"manager-gui\"/>' '<role rolename=\"manager-script\"/>' '<role rolename=\"manager-jmx\"/>' '<role rolename=\"manager-status\"/>' '<role rolename=\"admin-gui\"/>' '<role rolename=\"admin-script\"/>' '<user username=\"tomcat\" password=\"tomcat\" roles=\"manager-gui,manager-script,manager-jmx,manager-status,admin-gui,admin-script\"/>' '</tomcat-users>'; do echo $i >> /opt/tomcat/conf/tomcat-users.xml; done
+    echo > /opt/tomcat/webapps/manager/META-INF/context.xml
+    for i in '<?xml version="1.0" encoding="UTF-8"?>'; do echo $i > /opt/tomcat/webapps/manager/META-INF/context.xml; done
+    for i in '<Context antiResourceLocking="false" privileged="true" >' '<Manager sessionAttributeValueClassNameFilter="java\.lang\.(?:Boolean|Integer|Long|Number|String)|org\.apache\.catalina\.filters\.CsrfPreventionFilter\$LruCache(?:\$1)?|java\.util\.(?:Linked)?HashMap"/>' '</Context>'; do echo $i >> /opt/tomcat/webapps/manager/META-INF/context.xml ; done
+        systemctl restart postgresql
+        pushd / && sudo -u postgres bash -c "createuser library_user;"
+        pushd / && sudo -u postgres bash -c "createdb library;"
+        pushd / && sudo -u postgres psql -U postgres -d postgres -c "alter user library_user with encrypted password 'lib123';"
+        pushd / && sudo -u postgres psql -U postgres -d postgres -c "grant all privileges on database library to library_user;"
+        pushd / && sudo -u postgres bash -c "PGPASSWORD=lib123 psql -U library_user -d library < /test/configuration/dump.sql"         
+        systemctl restart nginx tomcat postgresql
+      SHELL
+    end
+
+  end
+
+end
