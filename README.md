@@ -9,6 +9,7 @@
 Задача:
 * Необходимо в виртуальной машине VirtualBox установить Ubuntu Server 16.04, c параметрами hdd 5gb и ram 2gb. 
 * Далее внутри виртуальной машины установить:
+
     1.Java Oracle 8
     2.Apache Tomcat 8
     3.Git
