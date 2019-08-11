@@ -82,7 +82,9 @@
    
    * Проверим наличие созданной БД library и что она принадлежит пользователю library_user
       > su - postgres
+      
       > psql
+      
       > \list
       ![image](https://user-images.githubusercontent.com/52493338/62840598-b98a8700-bca5-11e9-9a72-ec2c32f29e6d.png)
         
