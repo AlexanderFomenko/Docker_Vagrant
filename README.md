@@ -150,6 +150,20 @@
       > /opt/tomcat/bin/startup.sh
       
       ![image](https://user-images.githubusercontent.com/52493338/62843170-77bb0a00-bcc0-11e9-9442-f92574edd107.png)
+      
+   6. Проверим что в браузере, прии обращении к Nginx по адресу 172.17.0.2, выводится страница с Tomcat.
+      
+      ![image](https://user-images.githubusercontent.com/52493338/62843253-1e070f80-bcc1-11e9-9d5d-74b63c1c8516.png)
+   
+   7. Проверим что наш собранный проект hello-world-war-1.0.0 присутствует в Tomcat. Для этого перейдем на веб-страницу => 'Manager App'
+    
+      ![image](https://user-images.githubusercontent.com/52493338/62843278-61fa1480-bcc1-11e9-92c6-64f127e78cee.png)
+      
+   8. Далее перейдем по пути '/hello-world-war-1.0.0', чтобы убедиться, что наш проект, собранный с помощью maven, исправен
+   
+      ![image](https://user-images.githubusercontent.com/52493338/62843312-ad142780-bcc1-11e9-8c5a-136f763a62cc.png)
+      
+      
      
      
       
