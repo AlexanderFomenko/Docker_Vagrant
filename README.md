@@ -78,7 +78,7 @@
    
    * Проверим настройки прокси сервера Nginx
       > cat /etc/nginx/sites-available/default
-    ![image](https://user-images.githubusercontent.com/52493338/62839708-7ecd2280-bc96-11e9-937b-3055b57c242b.png)
+    ![image](https://user-images.githubusercontent.com/52493338/62843624-e3eb3d00-bcc3-11e9-92a3-77fe2dc9c0a9.png)
    
    * Проверим наличие созданной БД library и что она принадлежит пользователю library_user
       > su - postgres
@@ -92,7 +92,6 @@
       > su - postgres
       
       > psql library library_user
-      
       ![image](https://user-images.githubusercontent.com/52493338/62840615-37e72900-bca6-11e9-86aa-d7b93c6de36e.png)
      
    * Проверим что наш собранный проект hello-world-war-1.0.0 присутствует в Tomcat. Для этого перейдем на веб-страницу => 'Manager App'
@@ -102,6 +101,88 @@
    * Далее перейдем по пути '/hello-world-war-1.0.0', чтобы убедиться, что наш проект правильно функционирует
       
       ![image](https://user-images.githubusercontent.com/52493338/62840700-7cbf8f80-bca7-11e9-8e38-c7d5f32e642a.png)
+### Docker
+Задача:
 
+1. Повторить предыдущую работу сделанную с помощью Vagrant. 
+2. Создать Docker-image и выложить на dockerhub.
+  
+  Решение:
+  
+  Для решения текущей задачи нам необходимы файлы из директории Docker, присутствующей в данном репозитории.
+  
+  1. Необходимо перейти в директорию, где находится Dockerfile из данного репозитория. В моем случае это '/opt/test'.
+     > cd /opt/test
+     
+     > Dockerfile определяет, что происходит в среде внутри нашего контейнера
+     
+  2. Создадим образ, используя параметры из Dockerfile.
+      > docker build -t docker_test .
+      
+     Где:
+      
+          docker build - команда для сбора образа из Dockerfile  
+          -t - указывает что создаваемому образу необходимо предоставить тег (в моем случае docker_test)
+          -'.'- указывает что Dockerfile находится в текущей директории
+  
+  3. Проверим что образ docker собран.
+      > docker images
+      
+      или
+      
+      > docker image ls
+      
+  4. Создадим Docker контейнер
+     
+     > docker run -it docker_test /bin/bash
+     
+     Где:
+     
+         docker run - команда для создания нового контейнера
+         -it - ключи для назначения псевдо TTY с в интерактивном режиме
+         - /bin/bash - подключение к оболочке bash внутри контейнера для выполнения операций
+  
+  5. Внутри контейнера запустим Nginx, Tomcat со следующим результатом выполнения команд.
+  
+      > /etc/init.d/nginx start
+      
+      > /opt/tomcat/bin/startup.sh
+      ![image](https://user-images.githubusercontent.com/52493338/62843170-77bb0a00-bcc0-11e9-9442-f92574edd107.png)
+      
+   6. Проверим что в браузере, прии обращении к Nginx по адресу 172.17.0.2, выводится страница с Tomcat.
+      
+      ![image](https://user-images.githubusercontent.com/52493338/62843253-1e070f80-bcc1-11e9-9d5d-74b63c1c8516.png)
+   
+   7. Проверим что наш собранный проект hello-world-war-1.0.0 присутствует в Tomcat. Для этого перейдем на веб-страницу => 'Manager App'
+    
+      ![image](https://user-images.githubusercontent.com/52493338/62843278-61fa1480-bcc1-11e9-92c6-64f127e78cee.png)
+      
+   8. Далее перейдем по пути '/hello-world-war-1.0.0', чтобы убедиться, что наш проект, собранный с помощью maven, исправен
+   
+      ![image](https://user-images.githubusercontent.com/52493338/62843312-ad142780-bcc1-11e9-8c5a-136f763a62cc.png)
+   
+   9. Перед сбором образа для хранилища DockerHub, необходимо ввести команду для входа в Docker реестр.
+      
+      > docker login
+      
+   10. Собираем образ для хранилища DockerHub
+      
+        > docker tag docker_test hopbut/github:project1
+      
+        Где:
         
+          - docker tag - создает тег TARGET_IMAGE, который ссылается на SOURCE_IMAGE
+   
+   11. Загрузим образ в репозиторий DockerHub и проверяем успешное выполнение команды
+   
+        > docker push hopbut/github:project1
+        ![image](https://user-images.githubusercontent.com/52493338/62843739-f0bc6080-bcc4-11e9-9a49-8faa81becf74.png)
+        
+        
+     
+     
+      
+  
+
+
 
