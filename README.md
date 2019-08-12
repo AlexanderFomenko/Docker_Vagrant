@@ -92,7 +92,6 @@
       > su - postgres
       
       > psql library library_user
-      
       ![image](https://user-images.githubusercontent.com/52493338/62840615-37e72900-bca6-11e9-86aa-d7b93c6de36e.png)
      
    * Проверим что наш собранный проект hello-world-war-1.0.0 присутствует в Tomcat. Для этого перейдем на веб-страницу => 'Manager App'
@@ -148,7 +147,6 @@
       > /etc/init.d/nginx start
       
       > /opt/tomcat/bin/startup.sh
-      
       ![image](https://user-images.githubusercontent.com/52493338/62843170-77bb0a00-bcc0-11e9-9442-f92574edd107.png)
       
    6. Проверим что в браузере, прии обращении к Nginx по адресу 172.17.0.2, выводится страница с Tomcat.
