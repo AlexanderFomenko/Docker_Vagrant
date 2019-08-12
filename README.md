@@ -173,7 +173,7 @@
         
           - docker tag - создает тег TARGET_IMAGE, который ссылается на SOURCE_IMAGE
    
-   11. Загрузим образ в репозиторий DockerHub и проверяем успешное выполнение команды
+   11. Загрузим образ в репозиторий DockerHub и проверим успешное выполнение команды
    
         > docker push hopbut/github:project1
         ![image](https://user-images.githubusercontent.com/52493338/62843739-f0bc6080-bcc4-11e9-9a49-8faa81becf74.png)
