@@ -128,7 +128,9 @@
   
   3. Проверим что образ docker собран.
       > docker images
+      
       или
+      
       > docker image ls
       
   
