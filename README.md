@@ -92,6 +92,7 @@
       > su - postgres
       
       > psql library library_user
+      
       ![image](https://user-images.githubusercontent.com/52493338/62840615-37e72900-bca6-11e9-86aa-d7b93c6de36e.png)
      
    * Проверим что наш собранный проект hello-world-war-1.0.0 присутствует в Tomcat. Для этого перейдем на веб-страницу => 'Manager App'
