@@ -161,13 +161,22 @@
    
       ![image](https://user-images.githubusercontent.com/52493338/62843312-ad142780-bcc1-11e9-8c5a-136f763a62cc.png)
    
-   9. Собираем образ для хранилища DockerHub
+   9. Перед сбором образа для хранилища DockerHub, необходимо ввести команду для входа в Docker реестр.
       
-      > docker tag docker_test hopbut/github:project1
+      > docker login
+      
+   10. Собираем образ для хранилища DockerHub
+      
+        > docker tag docker_test hopbut/github:project1
       
         Где:
         
           - docker tag - создает тег TARGET_IMAGE, который ссылается на SOURCE_IMAGE
+   
+   11. Загрузим образ в репозиторий DockerHub и проверяем успешное выполнение команды
+   
+        > docker push hopbut/github:project1
+        ![image](https://user-images.githubusercontent.com/52493338/62843739-f0bc6080-bcc4-11e9-9a49-8faa81becf74.png)
         
         
      
