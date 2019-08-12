@@ -143,7 +143,13 @@
          -it - ключи для назначения псевдо TTY с в интерактивном режиме
          - /bin/bash - подключение к оболочке bash внутри контейнера для выполнения операций
   
-  5.
+  5. Внутри контейнера запустим Nginx, Tomcat со следующим результатом выполнения команд.
+  
+      > /etc/init.d/nginx start
+      
+      > /opt/tomcat/bin/startup.sh
+      
+      ![image](https://user-images.githubusercontent.com/52493338/62843170-77bb0a00-bcc0-11e9-9442-f92574edd107.png)
      
      
       
