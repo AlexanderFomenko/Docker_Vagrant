@@ -168,6 +168,7 @@
       > docker tag docker_test hopbut/github:project1
       
         Где:
+        
           - docker tag - создает тег TARGET_IMAGE, который ссылается на SOURCE_IMAGE
         
         
