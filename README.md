@@ -162,8 +162,15 @@
    8. Далее перейдем по пути '/hello-world-war-1.0.0', чтобы убедиться, что наш проект, собранный с помощью maven, исправен
    
       ![image](https://user-images.githubusercontent.com/52493338/62843312-ad142780-bcc1-11e9-8c5a-136f763a62cc.png)
+   
+   9. Собираем образ для хранилища DockerHub
       
+      > docker tag docker_test hopbut/github:project1
       
+        Где:
+          - docker tag - создает тег TARGET_IMAGE, который ссылается на SOURCE_IMAGE
+        
+        
      
      
       
