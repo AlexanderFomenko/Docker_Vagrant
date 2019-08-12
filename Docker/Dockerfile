@@ -46,10 +46,4 @@ ENV JAVA_OPTS -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom
 ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
 ENV CATALINA_BASE /opt/tomcat
 
-CMD mvn compile
-CMD cp target/*.war /opt/tomcat/webapps
-CMD /etc/init.d/nginx start
-CMD ln -s /usr/bin/jsvc /opt/tomcat/bin/jsvc
-CMD /opt/tomcat/bin/daemon.sh start
-CMD /opt/tomcat/bin/startup.sh
 # Run app.py when the container launches
